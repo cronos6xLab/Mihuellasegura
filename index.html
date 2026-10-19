@@ -9,6 +9,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Leaflet CSS para el Mapa -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
     <style>
         /* =========================================
@@ -21,7 +24,6 @@
             --color-liquid-mist: #edfffe;
             --color-platinum: #ffffff;
             --color-silver-mist: #bbc7c6;
-            --color-ash: #f2f2f2;
             --color-slate-deep: #707777;
             --color-lavender-phosphor: #fde9ff;
             
@@ -110,8 +112,6 @@
             color: var(--color-silver-mist);
             font-weight: 400;
         }
-
-        .text-mist { color: var(--color-liquid-mist); }
 
         /* =========================================
            BUTTONS
@@ -353,7 +353,7 @@
         .faq-item p { font-size: 15px; }
 
         /* =========================================
-           FORMULARIO DE REGISTRO
+           FORMULARIO DE REGISTRO (SOLICITUD)
            ========================================= */
         .form-card {
             background-color: var(--color-liquid-kelp);
@@ -395,6 +395,11 @@
             color: var(--color-slate-deep);
         }
 
+        textarea.form-control {
+            resize: vertical;
+            min-height: 100px;
+        }
+
         select.form-control {
             appearance: none;
             background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23bbc7c6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
@@ -409,11 +414,31 @@
             gap: var(--spacing-20);
         }
 
+        /* Estilos del Mapa */
+        #map {
+            height: 300px;
+            width: 100%;
+            border-radius: var(--radius-small);
+            margin-bottom: var(--spacing-12);
+            border: 1px solid var(--color-slate-deep);
+            /* Filtro CSS para simular modo oscuro en el mapa */
+            filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
+            z-index: 1;
+        }
+
+        .map-instruction {
+            font-size: 13px;
+            color: var(--color-lavender-phosphor);
+            margin-bottom: var(--spacing-20);
+            display: block;
+        }
+
         .checkbox-group {
             display: flex;
             align-items: flex-start;
             gap: 12px;
             margin-bottom: var(--spacing-32);
+            margin-top: var(--spacing-24);
         }
 
         .checkbox-group input[type="checkbox"] {
@@ -520,11 +545,11 @@
             <div class="container">
                 <span class="label-uppercase">MiHuellaSegura — Sistema de Rastreo</span>
                 <h1>Cuando se pierden,<br>un toque los trae a casa.</h1>
-                <p>Placas inteligentes con tecnología QR + NFC. Un ecosistema de rescate inmediato, sin necesidad de descargar aplicaciones.</p>
+                <p>Placas inteligentes con tecnología QR + NFC. Al solicitar tu placa, nosotros la fabricamos con tus datos. Un ecosistema de rescate inmediato, sin necesidad de descargar aplicaciones.</p>
                 
                 <div class="hero-buttons">
                     <!-- Botón que abre el formulario de registro -->
-                    <button onclick="openScreen('registerScreen')" class="btn btn-primary">Iniciar Registro / Comprar</button>
+                    <button onclick="openScreen('registerScreen')" class="btn btn-primary">Solicitar Mi Placa</button>
                     
                     <button onclick="openScreen('instructionsScreen')" class="btn btn-outline">Instrucciones de uso</button>
 
@@ -562,23 +587,23 @@
                 <div class="steps-grid">
                     <div class="step-card">
                         <div class="step-number">01</div>
-                        <h3>Activación</h3>
-                        <p>Escanea el código QR y registra los datos críticos de tu mascota y tus contactos de emergencia.</p>
+                        <h3>Adquisición</h3>
+                        <p>Solicitas tu placa. Nosotros la fabricamos con un código QR y chip NFC único vinculado a los datos de tu mascota.</p>
                     </div>
                     <div class="step-card">
                         <div class="step-number">02</div>
                         <h3>Despliegue</h3>
-                        <p>Coloca la placa de grado militar en el collar. Es ligera, resistente al agua y no requiere baterías.</p>
+                        <p>Coloca la placa de grado militar en el collar. Es ligera, resistente al agua y no requiere baterías ni apps.</p>
                     </div>
                     <div class="step-card">
                         <div class="step-number">03</div>
                         <h3>Detección</h3>
-                        <p>Cualquier persona puede escanear el QR o usar el sensor NFC del celular sin descargar ninguna app.</p>
+                        <p>Si se pierde, quien lo encuentre escaneará el QR o tocará con su celular. Verá tu contacto de emergencia y datos médicos.</p>
                     </div>
                     <div class="step-card">
                         <div class="step-number">04</div>
                         <h3>Alerta Inmediata</h3>
-                        <p>Recibes una notificación directa a tu correo electrónico con la ubicación exacta del escaneo.</p>
+                        <p>El sistema enviará automáticamente un correo y un mensaje con la ubicación exacta a tus números registrados.</p>
                     </div>
                 </div>
             </div>
@@ -608,7 +633,7 @@
             <div class="overlay-header">
                 <span class="label-uppercase">Manual del Usuario</span>
                 <h1>Instrucciones de uso</h1>
-                <p>Todo lo que necesitas saber para activar, usar y cuidar tu placa MiHuellaSegura.</p>
+                <p>Todo lo que necesitas saber para usar y cuidar tu placa MiHuellaSegura.</p>
             </div>
 
             <div class="content-wrapper">
@@ -626,33 +651,23 @@
                 <div class="steps-grid" style="grid-template-columns: 1fr;">
                     <div class="step-card">
                         <div class="step-number">1</div>
-                        <h3>Escanea o toca tu placa</h3>
-                        <p>Acerca tu celular a la placa (tecnología NFC) o abre la cámara y apunta al código QR grabado. Se abrirá automáticamente la página de activación.</p>
+                        <h3>Recibe y coloca tu placa</h3>
+                        <p>Una vez que llenaste el formulario, nosotros fabricamos tu placa. Al recibirla, colócala en el collar. Es resistente al agua, golpes y sol.</p>
                     </div>
                     <div class="step-card">
                         <div class="step-number">2</div>
-                        <h3>Llena los datos de tu mascota</h3>
-                        <p>Nombre, una foto (opcional), tu teléfono, correo, WhatsApp si es diferente, y tu zona o colonia general. No necesitas dar tu dirección exacta.</p>
+                        <h3>Escaneo en caso de pérdida</h3>
+                        <p>Si tu mascota se pierde, cualquier persona puede acercar su celular a la placa (NFC) o escanear el código QR con la cámara. No necesitan descargar ninguna app.</p>
                     </div>
                     <div class="step-card">
                         <div class="step-number">3</div>
-                        <h3>Guarda tu enlace de edición</h3>
-                        <p>Al activar, te mostramos un enlace único para editar el perfil después. Guárdalo en tus notas o mándatelo por correo — no vuelve a aparecer.</p>
+                        <h3>Visualización de datos</h3>
+                        <p>El navegador del rescatista mostrará el perfil de tu mascota (nombre, foto, datos médicos) y tus botones de contacto de emergencia.</p>
                     </div>
                     <div class="step-card">
                         <div class="step-number">4</div>
-                        <h3>Coloca la placa en el collar</h3>
-                        <p>Es resistente al agua, golpes y sol — tu mascota puede traerla puesta todos los días.</p>
-                    </div>
-                    <div class="step-card">
-                        <div class="step-number">5</div>
-                        <h3>Si tu mascota se pierde</h3>
-                        <p>Entra a tu enlace de edición y activa "Marcar como perdido". Así, cada vez que alguien escanee la placa, recibirás un correo con su ubicación aproximada.</p>
-                    </div>
-                    <div class="step-card">
-                        <div class="step-number">6</div>
-                        <h3>Cuando la recuperes</h3>
-                        <p>Entra de nuevo a tu enlace de edición y da clic en "Ya la encontré — apagar modo búsqueda" para dejar de recibir notificaciones.</p>
+                        <h3>Notificación Automática</h3>
+                        <p>Al escanear, el sistema envía automáticamente la ubicación GPS del escaneo a tu correo y a tu WhatsApp de emergencia.</p>
                     </div>
                 </div>
 
@@ -662,19 +677,19 @@
                     </div>
                     <div class="faq-item">
                         <h3>¿Necesito instalar una app?</h3>
-                        <p>No. Todo funciona desde el navegador del celular de quien escanea la placa, sin descargar nada.</p>
+                        <p>No. Todo funciona desde el navegador de quien escanea la placa, sin descargar nada.</p>
                     </div>
                     <div class="faq-item">
-                        <h3>¿Qué pasa si pierdo mi enlace de edición?</h3>
-                        <p>Próximamente vas a poder recuperarlo desde la página de inicio con el correo que usaste al activar tu placa.</p>
+                        <h3>¿Qué pasa si mi mascota tiene una condición médica?</h3>
+                        <p>En el formulario de registro puedes añadir datos médicos (alergias, medicamentos). Esta información se mostrará al instante a quien escanee la placa.</p>
                     </div>
                     <div class="faq-item">
                         <h3>¿Mi dirección exacta queda expuesta?</h3>
-                        <p>No. Solo mostramos tu colonia o zona general, más un botón para que te llamen o escriban directamente.</p>
+                        <p>No. En el mapa solo seleccionas tu colonia o zona general. La ubicación exacta solo se comparte cuando se escanea la placa en caso de extravío.</p>
                     </div>
                     <div class="faq-item">
-                        <h3>¿La placa aguanta agua y sol?</h3>
-                        <p>Sí, está impresa en PETG, un material pensado para el uso diario en cualquier clima.</p>
+                        <h3>¿Cómo me contactan?</h3>
+                        <p>Al escanear la placa, el sistema dispara una alerta automática a tu correo y al número de WhatsApp que registraste como contacto principal y secundario.</p>
                     </div>
                 </div>
 
@@ -686,7 +701,7 @@
     </div>
 
     <!-- =========================================
-         PANTALLA DE REGISTRO / COMPRA (OVERLAY)
+         PANTALLA DE REGISTRO / SOLICITUD (OVERLAY)
          ========================================= -->
     <div id="registerScreen" class="overlay-screen">
         <div class="top-nav">
@@ -699,16 +714,16 @@
         <div class="container">
             <div class="overlay-header">
                 <span class="label-uppercase">Módulo de Adquisición</span>
-                <h1>Iniciar Registro</h1>
-                <p>Completa los datos para activar tu placa MiHuellaSegura. La información será utilizada para el rescate de tu mascota.</p>
+                <h1>Solicitar Mi Placa</h1>
+                <p>Completa este formulario. Al enviarlo, <strong>nosotros fabricaremos tu placa inteligente</strong> con un código único vinculado a estos datos. Si alguien encuentra a tu mascota, el sistema enviará su ubicación automáticamente a tus contactos.</p>
             </div>
 
             <div class="content-wrapper">
                 <div class="form-card">
-                    <!-- Formulario con ID para manipularlo con JS -->
+                    <!-- Formulario -->
                     <form id="registrationForm">
                         
-                        <h3 style="margin-bottom: var(--spacing-24); color: var(--color-liquid-mist);">Datos del Tutor</h3>
+                        <h3 style="margin-bottom: var(--spacing-24); color: var(--color-liquid-mist);">1. Datos de Contacto (Tutor)</h3>
                         
                         <div class="form-group">
                             <label for="ownerName">Nombre completo</label>
@@ -717,7 +732,7 @@
 
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="ownerPhone">Teléfono / WhatsApp</label>
+                                <label for="ownerPhone">Teléfono / WhatsApp Principal</label>
                                 <input type="tel" id="ownerPhone" class="form-control" placeholder="Ej. 5512345678" required>
                             </div>
                             <div class="form-group">
@@ -727,11 +742,22 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="ownerZone">Zona o Colonia (No dirección exacta)</label>
-                            <input type="text" id="ownerZone" class="form-control" placeholder="Ej. Col. Del Valle, CDMX" required>
+                            <label for="emergencyPhone">Teléfono de Emergencia Secundario (Opcional)</label>
+                            <input type="tel" id="emergencyPhone" class="form-control" placeholder="Por si no estás disponible">
                         </div>
 
-                        <h3 style="margin-top: var(--spacing-48); margin-bottom: var(--spacing-24); color: var(--color-liquid-mist);">Datos de la Mascota</h3>
+                        <h3 style="margin-top: var(--spacing-48); margin-bottom: var(--spacing-24); color: var(--color-liquid-mist);">2. Zona de Residencia</h3>
+                        
+                        <span class="map-instruction">Haz clic en el mapa para marcar tu colonia o zona aproximada (no tu dirección exacta).</span>
+                        <!-- Contenedor del Mapa Leaflet -->
+                        <div id="map"></div>
+                        
+                        <div class="form-group">
+                            <label for="ownerZone">Zona seleccionada en el mapa</label>
+                            <input type="text" id="ownerZone" class="form-control" placeholder="Haz clic en el mapa..." readonly required>
+                        </div>
+
+                        <h3 style="margin-top: var(--spacing-48); margin-bottom: var(--spacing-24); color: var(--color-liquid-mist);">3. Datos de la Mascota</h3>
 
                         <div class="form-row">
                             <div class="form-group">
@@ -754,16 +780,21 @@
                             <input type="text" id="petBreed" class="form-control" placeholder="Ej. Labrador, Mestizo, Siamés...">
                         </div>
 
+                        <div class="form-group">
+                            <label for="medicalInfo">Datos Médicos Importantes (Alergias, medicamentos, condiciones)</label>
+                            <textarea id="medicalInfo" class="form-control" placeholder="Ej. Alérgico a la penicilina, toma medicamento para el corazón, es sordo, etc. (Esta información se mostrará en caso de rescate)."></textarea>
+                        </div>
+
                         <!-- Checkbox de privacidad -->
                         <div class="checkbox-group">
                             <input type="checkbox" id="privacyCheck" required>
                             <label for="privacyCheck">
-                                He leído y acepto el <a onclick="openModal()">Aviso de Privacidad</a> y autorizo el uso de estos datos para el funcionamiento del sistema de rescate.
+                                He leído y acepto el <a onclick="openModal()">Aviso de Privacidad</a> y autorizo el uso de estos datos para la fabricación de mi placa y el funcionamiento del sistema de rescate.
                             </label>
                         </div>
 
                         <!-- Botón de Enviar -->
-                        <button type="submit" class="btn btn-primary" style="width: 100%;">Finalizar y enviar a WhatsApp</button>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Finalizar Solicitud y enviar a WhatsApp</button>
                     </form>
                 </div>
             </div>
@@ -775,12 +806,15 @@
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal()">&times;</span>
             <h2>Aviso de Privacidad</h2>
-            <p><strong>1. Datos recabados:</strong> Para la operatividad de MiHuellaSegura, se recopilan datos personales (Nombre, Teléfono, Correo, Zona) y datos de la mascota (Nombre, Especie, Raza, como Sasco, Tah, etc.).</p>
-            <p><strong>2. Finalidad:</strong> Los datos serán almacenados en nuestra base de datos cifrada exclusivamente para permitir que terceros que encuentren a su mascota puedan contactarle y compartir su geolocalización de manera inmediata.</p>
+            <p><strong>1. Datos recabados:</strong> Para la fabricación y operatividad de MiHuellaSegura, se recopilan datos personales (Nombre, Teléfonos, Correo, Zona Geográfica) y datos de la mascota (Nombre, Especie, Raza, Datos Médicos).</p>
+            <p><strong>2. Finalidad:</strong> Los datos serán almacenados en nuestra base de datos cifrada exclusivamente para permitir que terceros que encuentren a su mascota puedan contactarle y compartir su geolocalización de manera inmediata a sus contactos registrados.</p>
             <p><strong>3. No transferencia:</strong> Los datos no serán vendidos, rentados ni compartidos con fines publicitarios ajenos al servicio de rescate de mascotas.</p>
             <p><strong>4. Derechos ARCO:</strong> Puede solicitar la modificación o eliminación de los datos registrados enviando una solicitud a nuestro equipo de soporte técnico en cualquier momento.</p>
         </div>
     </div>
+
+    <!-- Leaflet JS (Mapa) -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <!-- SCRIPTS -->
     <script>
@@ -791,6 +825,11 @@
             mainScreen.style.display = "none";
             document.getElementById(screenId).style.display = "block";
             window.scrollTo(0, 0);
+            
+            // Si es la pantalla de registro, inicializamos/re-centramos el mapa
+            if(screenId === 'registerScreen' && map) {
+                setTimeout(() => { map.invalidateSize(); }, 100);
+            }
         }
 
         function closeScreen(screenId) {
@@ -805,70 +844,129 @@
         function closeModal() { modal.style.display = "none"; }
         window.onclick = function(event) { if (event.target == modal) { modal.style.display = "none"; } }
 
-        // --- Lógica de Envío del Formulario (Webhook + WhatsApp) ---
+        // --- Lógica del Mapa (Leaflet) ---
+        let map;
+        let marker;
+        
+        // Inicializar mapa centrado en CDMX como referencia
+        map = L.map('map').setView([19.4326, -99.1332], 10);
+        
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap',
+            maxZoom: 18
+        }).addTo(map);
+
+        // Variable para guardar coordenadas seleccionadas
+        let selectedLat = null;
+        let selectedLng = null;
+
+        // Evento al hacer clic en el mapa
+        map.on('click', function(e) {
+            selectedLat = e.latlng.lat;
+            selectedLng = e.latlng.lng;
+
+            // Mover marcador
+            if (marker) {
+                map.removeLayer(marker);
+            }
+            marker = L.marker([selectedLat, selectedLng]).addTo(map);
+
+            // Hacer Reverse Geocoding (Obtener nombre del lugar aproximado)
+            const zoneInput = document.getElementById('ownerZone');
+            zoneInput.value = "Buscando zona...";
+
+            fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${selectedLat}&lon=${selectedLng}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.display_name) {
+                        // Acortar el nombre para que no sea tan largo
+                        const parts = data.display_name.split(',');
+                        const zoneName = parts.slice(0, 3).join(', '); 
+                        zoneInput.value = zoneName;
+                    } else {
+                        zoneInput.value = `Lat: ${selectedLat.toFixed(4)}, Lng: ${selectedLng.toFixed(4)}`;
+                    }
+                })
+                .catch(error => {
+                    zoneInput.value = `Lat: ${selectedLat.toFixed(4)}, Lng: ${selectedLng.toFixed(4)}`;
+                });
+        });
+
+
+        // --- Lógica de Envío del Formulario ---
         document.getElementById('registrationForm').addEventListener('submit', function(e) {
-            e.preventDefault(); // Prevenir recarga de página
+            e.preventDefault(); 
 
             // 1. Capturar los datos del formulario
             const data = {
                 ownerName: document.getElementById('ownerName').value,
                 ownerPhone: document.getElementById('ownerPhone').value,
                 ownerEmail: document.getElementById('ownerEmail').value,
+                emergencyPhone: document.getElementById('emergencyPhone').value || 'No especificado',
                 ownerZone: document.getElementById('ownerZone').value,
+                latitud: selectedLat,
+                longitud: selectedLng,
                 petName: document.getElementById('petName').value,
                 petType: document.getElementById('petType').value,
-                petBreed: document.getElementById('petBreed').value
+                petBreed: document.getElementById('petBreed').value || 'No especificada',
+                medicalInfo: document.getElementById('medicalInfo').value || 'Ninguno'
             };
 
-            // 2. Configuración del Webhook (Aquí conectas tu base de datos)
-            // Reemplaza 'TU_URL_DE_WEBHOOK_AQUI' con la URL de Make, Zapier o tu API.
+            // 2. Configuración del Webhook
             const webhookURL = 'TU_URL_DE_WEBHOOK_AQUI';
             
             if (webhookURL !== 'TU_URL_DE_WEBHOOK_AQUI') {
-                // Enviamos los datos al webhook de forma invisible
                 fetch(webhookURL, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
                 })
-                .then(response => console.log('Datos enviados al webhook:', response))
+                .then(response => console.log('Datos enviados:', response))
                 .catch(error => console.error('Error en webhook:', error));
             } else {
-                console.log('Webhook no configurado. Simulando envío de datos:', data);
+                console.log('Webhook no configurado. Datos listos:', data);
             }
 
-            // 3. Formatear el mensaje para WhatsApp
-            // El número debe ir sin espacios ni símbolos (+52 56 6509 2869 = 525665092869)
+            // 3. Formatear el mensaje para WhatsApp (El número de la empresa)
             const myWhatsAppNumber = "525665092869"; 
             
-            const messageText = `*NUEVO REGISTRO - MiHuellaSegura* 🐾\n\n` +
+            // Crear link de Google Maps si hay coordenadas
+            let mapLink = "No seleccionada";
+            if (selectedLat && selectedLng) {
+                mapLink = `https://www.google.com/maps?q=${selectedLat},${selectedLng}`;
+            }
+
+            const messageText = `*NUEVA SOLICITUD DE PLACA - MiHuellaSegura* 🐾\n\n` +
                                 `*DATOS DEL TUTOR:*\n` +
                                 `👤 Nombre: ${data.ownerName}\n` +
-                                `📱 Teléfono: ${data.ownerPhone}\n` +
-                                `✉️ Correo: ${data.ownerEmail}\n` +
-                                `📍 Zona: ${data.ownerZone}\n\n` +
+                                `📱 WhatsApp Principal: ${data.ownerPhone}\n` +
+                                `📞 Emergencia Secundario: ${data.emergencyPhone}\n` +
+                                `✉️ Correo: ${data.ownerEmail}\n\n` +
+                                `*UBICACIÓN (Zona):*\n` +
+                                `📍 ${data.ownerZone}\n` +
+                                `🗺️ Link: ${mapLink}\n\n` +
                                 `*DATOS DE LA MASCOTA:*\n` +
                                 `🐶 Nombre: ${data.petName}\n` +
                                 `🦴 Especie: ${data.petType}\n` +
-                                `🔍 Raza: ${data.petBreed || 'No especificada'}\n\n` +
-                                `_Solicitud generada desde la web._`;
+                                `🔍 Raza: ${data.petBreed}\n` +
+                                `🩺 Datos Médicos: ${data.medicalInfo}\n\n` +
+                                `_Por favor, confirma los datos para proceder con la fabricación._`;
 
-            // Codificar el mensaje para que funcione en la URL
             const encodedMessage = encodeURIComponent(messageText);
             const whatsappURL = `https://wa.me/${myWhatsAppNumber}?text=${encodedMessage}`;
 
-            // 4. Abrir WhatsApp en una nueva pestaña
+            // 4. Abrir WhatsApp
             window.open(whatsappURL, '_blank');
 
-            // 5. Limpiar formulario y regresar a la pantalla principal
+            // 5. Limpiar formulario, mapa y regresar
             this.reset();
+            if(marker) { map.removeLayer(marker); marker = null; }
+            selectedLat = null; selectedLng = null;
+            
             closeScreen('registerScreen');
             
-            // Opcional: Lanzar una alerta de éxito
             setTimeout(() => {
-                alert("Solicitud procesada. Por favor, envía el mensaje en WhatsApp para completar tu registro.");
+                alert("Solicitud generada. Por favor, envía el mensaje en WhatsApp para finalizar la compra/fabricación de tu placa.");
             }, 500);
         });
     </script>
