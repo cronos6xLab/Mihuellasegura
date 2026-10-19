@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MiHuellaSegura | Un toque a casa</title>
     
-    <!-- Font Substitute: Inter (para emular Matter) -->
+    <!-- Font Substitute: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
@@ -15,7 +15,6 @@
            AUROS DESIGN TOKENS
            ========================================= */
         :root {
-            /* Colors */
             --color-liquid-abyss: #012624;
             --color-liquid-deep: #011d1c;
             --color-liquid-kelp: #003734;
@@ -26,14 +25,10 @@
             --color-slate-deep: #707777;
             --color-lavender-phosphor: #fde9ff;
             
-            /* Gradients */
-            --gradient-bioluminescent: linear-gradient(90deg, rgb(0, 130, 124) 0%, rgb(203, 255, 252) 100%);
             --gradient-aurora: linear-gradient(90deg, rgb(203, 255, 252) 0%, rgb(237, 255, 254) 26.25%, rgb(255, 253, 250) 47.57%, rgb(250, 209, 255) 88.96%);
 
-            /* Typography */
             --font-matter: 'Inter', system-ui, -apple-system, sans-serif;
             
-            /* Spacing & Layout */
             --spacing-12: 12px;
             --spacing-16: 16px;
             --spacing-20: 20px;
@@ -44,9 +39,7 @@
             --spacing-64: 64px;
             --spacing-80: 80px;
             --spacing-120: 120px;
-            --section-gap: 68px;
 
-            /* Radii */
             --radius-small: 6px;
             --radius-cards: 16px;
         }
@@ -119,7 +112,6 @@
         }
 
         .text-mist { color: var(--color-liquid-mist); }
-        .text-pink { color: var(--color-lavender-phosphor); }
 
         /* =========================================
            BUTTONS
@@ -289,10 +281,10 @@
         .step-card p { font-size: 15px; color: var(--color-silver-mist); }
 
         /* =========================================
-           PANTALLA DE INSTRUCCIONES (OVERLAY)
+           PANTALLAS OVERLAY (Instrucciones y Registro)
            ========================================= */
-        .instructions-screen {
-            display: none; /* Oculto por defecto */
+        .overlay-screen {
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
@@ -304,33 +296,41 @@
             padding: var(--spacing-48) 0;
         }
 
-        .instructions-header {
+        .overlay-header {
             text-align: center;
             margin-bottom: var(--spacing-64);
         }
 
-        .instructions-header p {
+        .overlay-header p {
             max-width: 600px;
             margin: 0 auto;
             color: var(--color-liquid-mist);
         }
 
+        .top-nav {
+            max-width: 1440px;
+            margin: 0 auto var(--spacing-48);
+            padding: 0 var(--spacing-24);
+        }
+
+        .content-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
         /* Video Placeholder */
         .video-placeholder {
             width: 100%;
-            max-width: 800px;
             aspect-ratio: 16 / 9;
             background-color: var(--color-liquid-deep);
             border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: var(--radius-cards);
-            margin: 0 auto var(--spacing-64);
+            margin-bottom: var(--spacing-64);
             display: flex;
             align-items: center;
             justify-content: center;
             flex-direction: column;
             color: var(--color-slate-deep);
-            position: relative;
-            overflow: hidden;
         }
 
         .play-icon {
@@ -343,48 +343,97 @@
             justify-content: center;
             margin-bottom: var(--spacing-16);
         }
-
-        .play-icon svg {
-            fill: var(--color-lavender-phosphor);
-            width: 24px;
-            height: 24px;
-            margin-left: 4px; /* Centrado óptico */
-        }
-
-        .instructions-content {
-            max-width: 800px;
-            margin: 0 auto;
-        }
+        .play-icon svg { fill: var(--color-lavender-phosphor); width: 24px; height: 24px; margin-left: 4px; }
 
         /* FAQs */
-        .faq-section {
-            margin-top: var(--spacing-80);
+        .faq-section { margin-top: var(--spacing-80); }
+        .faq-item { border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding: var(--spacing-24) 0; }
+        .faq-item:last-child { border-bottom: none; }
+        .faq-item h3 { font-size: 20px; margin-bottom: var(--spacing-12); color: var(--color-liquid-mist); }
+        .faq-item p { font-size: 15px; }
+
+        /* =========================================
+           FORMULARIO DE REGISTRO
+           ========================================= */
+        .form-card {
+            background-color: var(--color-liquid-kelp);
+            padding: var(--spacing-48);
+            border-radius: var(--radius-cards);
         }
 
-        .faq-item {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding: var(--spacing-24) 0;
+        .form-group {
+            margin-bottom: var(--spacing-24);
         }
 
-        .faq-item:last-child {
-            border-bottom: none;
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--color-silver-mist);
+            margin-bottom: 8px;
         }
 
-        .faq-item h3 {
-            font-size: 20px;
-            margin-bottom: var(--spacing-12);
+        .form-control {
+            width: 100%;
+            padding: 16px;
+            background-color: var(--color-liquid-deep);
+            border: 1px solid var(--color-slate-deep);
+            border-radius: var(--radius-small);
+            color: var(--color-platinum);
+            font-size: 16px;
+            font-family: var(--font-matter);
+            transition: border-color 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--color-liquid-mist);
+        }
+
+        .form-control::placeholder {
+            color: var(--color-slate-deep);
+        }
+
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23bbc7c6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            background-size: 16px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-20);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: var(--spacing-32);
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            margin-top: 4px;
+            accent-color: var(--color-liquid-mist);
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .checkbox-group label {
+            font-size: 14px;
+            color: var(--color-silver-mist);
+            line-height: 1.4;
+        }
+
+        .checkbox-group a {
             color: var(--color-liquid-mist);
-        }
-
-        .faq-item p {
-            font-size: 15px;
-        }
-
-        /* Botón superior de regresar */
-        .top-nav {
-            max-width: 1440px;
-            margin: 0 auto var(--spacing-48);
-            padding: 0 var(--spacing-24);
+            text-decoration: underline;
+            cursor: pointer;
         }
 
         /* =========================================
@@ -397,11 +446,7 @@
             border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        footer p {
-            font-size: 13px;
-            color: var(--color-slate-deep);
-            margin-bottom: 8px;
-        }
+        footer p { font-size: 13px; color: var(--color-slate-deep); margin-bottom: 8px; }
 
         .privacy-link {
             color: var(--color-liquid-mist);
@@ -409,14 +454,13 @@
             cursor: pointer;
             transition: color 0.2s;
         }
-        
         .privacy-link:hover { color: var(--color-lavender-phosphor); }
 
         /* Modal */
         .modal {
             display: none;
             position: fixed;
-            z-index: 10000; /* Por encima de la pantalla de instrucciones */
+            z-index: 10000;
             left: 0;
             top: 0;
             width: 100%;
@@ -448,7 +492,6 @@
             cursor: pointer;
             color: var(--color-silver-mist);
         }
-
         .close-btn:hover { color: var(--color-platinum); }
         .modal-content h2 { margin-bottom: var(--spacing-24); font-size: 32px; }
         .modal-content p { margin-bottom: var(--spacing-16); font-size: 15px; }
@@ -459,8 +502,10 @@
             .btn { width: 100%; }
             .section-header { text-align: center; }
             .step-card { padding: var(--spacing-24); }
-            .instructions-screen { padding: var(--spacing-24) 0; }
+            .overlay-screen { padding: var(--spacing-24) 0; }
             .modal-content { padding: var(--spacing-24); }
+            .form-row { grid-template-columns: 1fr; }
+            .form-card { padding: var(--spacing-24); }
         }
     </style>
 </head>
@@ -478,11 +523,12 @@
                 <p>Placas inteligentes con tecnología QR + NFC. Un ecosistema de rescate inmediato, sin necesidad de descargar aplicaciones.</p>
                 
                 <div class="hero-buttons">
-                    <a href="[TU_ENLACE_AL_FORMULARIO]" target="_blank" class="btn btn-primary">Iniciar Registro / Comprar</a>
+                    <!-- Botón que abre el formulario de registro -->
+                    <button onclick="openScreen('registerScreen')" class="btn btn-primary">Iniciar Registro / Comprar</button>
                     
-                    <button onclick="openInstructions()" class="btn btn-outline">Instrucciones de uso</button>
+                    <button onclick="openScreen('instructionsScreen')" class="btn btn-outline">Instrucciones de uso</button>
 
-                    <a href="https://wa.me/[TU_ENLACE_DE_WHATSAPP]?text=Hola,%20quiero%20más%20información%20sobre%20MiHuellaSegura" target="_blank" class="btn btn-secondary">
+                    <a href="https://wa.me/525665092869?text=Hola,%20quiero%20más%20información%20sobre%20MiHuellaSegura" target="_blank" class="btn btn-secondary">
                         <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
                         Soporte
                     </a>
@@ -550,32 +596,29 @@
     <!-- =========================================
          PANTALLA DE INSTRUCCIONES (OVERLAY)
          ========================================= -->
-    <div id="instructionsScreen" class="instructions-screen">
-        
+    <div id="instructionsScreen" class="overlay-screen">
         <div class="top-nav">
-            <button class="btn btn-secondary" onclick="closeInstructions()">
+            <button class="btn btn-secondary" onclick="closeScreen('instructionsScreen')">
                 <svg viewBox="0 0 24 24" style="margin-right: 8px; width: 16px; height: 16px;"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
                 Volver al inicio
             </button>
         </div>
 
         <div class="container">
-            <div class="instructions-header">
+            <div class="overlay-header">
                 <span class="label-uppercase">Manual del Usuario</span>
                 <h1>Instrucciones de uso</h1>
                 <p>Todo lo que necesitas saber para activar, usar y cuidar tu placa MiHuellaSegura.</p>
             </div>
 
-            <!-- Marcador de Video -->
-            <!-- Puedes reemplazar todo este div por un <iframe> de YouTube -->
-            <div class="video-placeholder">
-                <div class="play-icon">
-                    <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            <div class="content-wrapper">
+                <div class="video-placeholder">
+                    <div class="play-icon">
+                        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </div>
+                    <p class="text-mist">Video explicativo</p>
                 </div>
-                <p class="text-mist">Video explicativo</p>
-            </div>
 
-            <div class="instructions-content">
                 <div class="section-header" style="text-align: left; margin-bottom: 32px;">
                     <h2>Paso a paso</h2>
                 </div>
@@ -586,31 +629,26 @@
                         <h3>Escanea o toca tu placa</h3>
                         <p>Acerca tu celular a la placa (tecnología NFC) o abre la cámara y apunta al código QR grabado. Se abrirá automáticamente la página de activación.</p>
                     </div>
-                    
                     <div class="step-card">
                         <div class="step-number">2</div>
                         <h3>Llena los datos de tu mascota</h3>
                         <p>Nombre, una foto (opcional), tu teléfono, correo, WhatsApp si es diferente, y tu zona o colonia general. No necesitas dar tu dirección exacta.</p>
                     </div>
-                    
                     <div class="step-card">
                         <div class="step-number">3</div>
                         <h3>Guarda tu enlace de edición</h3>
                         <p>Al activar, te mostramos un enlace único para editar el perfil después. Guárdalo en tus notas o mándatelo por correo — no vuelve a aparecer.</p>
                     </div>
-                    
                     <div class="step-card">
                         <div class="step-number">4</div>
                         <h3>Coloca la placa en el collar</h3>
                         <p>Es resistente al agua, golpes y sol — tu mascota puede traerla puesta todos los días.</p>
                     </div>
-                    
                     <div class="step-card">
                         <div class="step-number">5</div>
                         <h3>Si tu mascota se pierde</h3>
                         <p>Entra a tu enlace de edición y activa "Marcar como perdido". Así, cada vez que alguien escanee la placa, recibirás un correo con su ubicación aproximada.</p>
                     </div>
-                    
                     <div class="step-card">
                         <div class="step-number">6</div>
                         <h3>Cuando la recuperes</h3>
@@ -618,38 +656,116 @@
                     </div>
                 </div>
 
-                <!-- Preguntas Frecuentes -->
                 <div class="faq-section">
                     <div class="section-header" style="text-align: left; margin-bottom: 32px;">
                         <h2>Preguntas frecuentes</h2>
                     </div>
-
                     <div class="faq-item">
                         <h3>¿Necesito instalar una app?</h3>
                         <p>No. Todo funciona desde el navegador del celular de quien escanea la placa, sin descargar nada.</p>
                     </div>
-
                     <div class="faq-item">
                         <h3>¿Qué pasa si pierdo mi enlace de edición?</h3>
                         <p>Próximamente vas a poder recuperarlo desde la página de inicio con el correo que usaste al activar tu placa.</p>
                     </div>
-
                     <div class="faq-item">
                         <h3>¿Mi dirección exacta queda expuesta?</h3>
                         <p>No. Solo mostramos tu colonia o zona general, más un botón para que te llamen o escriban directamente.</p>
                     </div>
-
                     <div class="faq-item">
                         <h3>¿La placa aguanta agua y sol?</h3>
                         <p>Sí, está impresa en PETG, un material pensado para el uso diario en cualquier clima.</p>
                     </div>
                 </div>
 
-                <!-- Botón inferior de regresar -->
                 <div style="text-align: center; margin-top: var(--spacing-80);">
-                    <button class="btn btn-primary" onclick="closeInstructions()">Volver al inicio</button>
+                    <button class="btn btn-primary" onclick="closeScreen('instructionsScreen')">Volver al inicio</button>
                 </div>
+            </div>
+        </div>
+    </div>
 
+    <!-- =========================================
+         PANTALLA DE REGISTRO / COMPRA (OVERLAY)
+         ========================================= -->
+    <div id="registerScreen" class="overlay-screen">
+        <div class="top-nav">
+            <button class="btn btn-secondary" onclick="closeScreen('registerScreen')">
+                <svg viewBox="0 0 24 24" style="margin-right: 8px; width: 16px; height: 16px;"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+                Volver al inicio
+            </button>
+        </div>
+
+        <div class="container">
+            <div class="overlay-header">
+                <span class="label-uppercase">Módulo de Adquisición</span>
+                <h1>Iniciar Registro</h1>
+                <p>Completa los datos para activar tu placa MiHuellaSegura. La información será utilizada para el rescate de tu mascota.</p>
+            </div>
+
+            <div class="content-wrapper">
+                <div class="form-card">
+                    <!-- Formulario con ID para manipularlo con JS -->
+                    <form id="registrationForm">
+                        
+                        <h3 style="margin-bottom: var(--spacing-24); color: var(--color-liquid-mist);">Datos del Tutor</h3>
+                        
+                        <div class="form-group">
+                            <label for="ownerName">Nombre completo</label>
+                            <input type="text" id="ownerName" class="form-control" placeholder="Ej. Juan Pérez" required>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="ownerPhone">Teléfono / WhatsApp</label>
+                                <input type="tel" id="ownerPhone" class="form-control" placeholder="Ej. 5512345678" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="ownerEmail">Correo Electrónico</label>
+                                <input type="email" id="ownerEmail" class="form-control" placeholder="tucorreo@ejemplo.com" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ownerZone">Zona o Colonia (No dirección exacta)</label>
+                            <input type="text" id="ownerZone" class="form-control" placeholder="Ej. Col. Del Valle, CDMX" required>
+                        </div>
+
+                        <h3 style="margin-top: var(--spacing-48); margin-bottom: var(--spacing-24); color: var(--color-liquid-mist);">Datos de la Mascota</h3>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="petName">Nombre de la mascota</label>
+                                <input type="text" id="petName" class="form-control" placeholder="Ej. Sasco, Tah" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="petType">Especie</label>
+                                <select id="petType" class="form-control" required>
+                                    <option value="" disabled selected>Selecciona...</option>
+                                    <option value="Perro">Perro</option>
+                                    <option value="Gato">Gato</option>
+                                    <option value="Otro">Otro</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="petBreed">Raza (Opcional)</label>
+                            <input type="text" id="petBreed" class="form-control" placeholder="Ej. Labrador, Mestizo, Siamés...">
+                        </div>
+
+                        <!-- Checkbox de privacidad -->
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="privacyCheck" required>
+                            <label for="privacyCheck">
+                                He leído y acepto el <a onclick="openModal()">Aviso de Privacidad</a> y autorizo el uso de estos datos para el funcionamiento del sistema de rescate.
+                            </label>
+                        </div>
+
+                        <!-- Botón de Enviar -->
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Finalizar y enviar a WhatsApp</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -659,48 +775,102 @@
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal()">&times;</span>
             <h2>Aviso de Privacidad</h2>
-            <p><strong>1. Datos recabados:</strong> Para la operatividad de MiHuellaSegura, se recopilan datos personales (Nombre, Teléfono, Correo, Dirección) y datos de la mascota (Nombre, Raza, Características, como Sasco, Tah, etc.).</p>
+            <p><strong>1. Datos recabados:</strong> Para la operatividad de MiHuellaSegura, se recopilan datos personales (Nombre, Teléfono, Correo, Zona) y datos de la mascota (Nombre, Especie, Raza, como Sasco, Tah, etc.).</p>
             <p><strong>2. Finalidad:</strong> Los datos serán almacenados en nuestra base de datos cifrada exclusivamente para permitir que terceros que encuentren a su mascota puedan contactarle y compartir su geolocalización de manera inmediata.</p>
             <p><strong>3. No transferencia:</strong> Los datos no serán vendidos, rentados ni compartidos con fines publicitarios ajenos al servicio de rescate de mascotas.</p>
             <p><strong>4. Derechos ARCO:</strong> Puede solicitar la modificación o eliminación de los datos registrados enviando una solicitud a nuestro equipo de soporte técnico en cualquier momento.</p>
-            <p><strong>5. Consentimiento:</strong> Al llenar el formulario de compra/registro, el usuario otorga su consentimiento tácito y expreso para el tratamiento de sus datos conforme a este aviso.</p>
         </div>
     </div>
 
     <!-- SCRIPTS -->
     <script>
-        // Lógica para el Modal de Privacidad
-        const modal = document.getElementById("privacyModal");
-
-        function openModal() {
-            modal.style.display = "flex";
-        }
-
-        function closeModal() {
-            modal.style.display = "none";
-        }
-
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-
-        // Lógica para la pantalla de Instrucciones
+        // --- Lógica de Navegación entre Pantallas ---
         const mainScreen = document.getElementById("mainScreen");
-        const instructionsScreen = document.getElementById("instructionsScreen");
 
-        function openInstructions() {
-            mainScreen.style.display = "none"; // Ocultar inicio
-            instructionsScreen.style.display = "block"; // Mostrar instrucciones
-            window.scrollTo(0, 0); // Subir al top
+        function openScreen(screenId) {
+            mainScreen.style.display = "none";
+            document.getElementById(screenId).style.display = "block";
+            window.scrollTo(0, 0);
         }
 
-        function closeInstructions() {
-            instructionsScreen.style.display = "none"; // Ocultar instrucciones
-            mainScreen.style.display = "block"; // Mostrar inicio
-            window.scrollTo(0, 0); // Subir al top
+        function closeScreen(screenId) {
+            document.getElementById(screenId).style.display = "none";
+            mainScreen.style.display = "block";
+            window.scrollTo(0, 0);
         }
+
+        // --- Lógica del Modal de Privacidad ---
+        const modal = document.getElementById("privacyModal");
+        function openModal() { modal.style.display = "flex"; }
+        function closeModal() { modal.style.display = "none"; }
+        window.onclick = function(event) { if (event.target == modal) { modal.style.display = "none"; } }
+
+        // --- Lógica de Envío del Formulario (Webhook + WhatsApp) ---
+        document.getElementById('registrationForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevenir recarga de página
+
+            // 1. Capturar los datos del formulario
+            const data = {
+                ownerName: document.getElementById('ownerName').value,
+                ownerPhone: document.getElementById('ownerPhone').value,
+                ownerEmail: document.getElementById('ownerEmail').value,
+                ownerZone: document.getElementById('ownerZone').value,
+                petName: document.getElementById('petName').value,
+                petType: document.getElementById('petType').value,
+                petBreed: document.getElementById('petBreed').value
+            };
+
+            // 2. Configuración del Webhook (Aquí conectas tu base de datos)
+            // Reemplaza 'TU_URL_DE_WEBHOOK_AQUI' con la URL de Make, Zapier o tu API.
+            const webhookURL = 'TU_URL_DE_WEBHOOK_AQUI';
+            
+            if (webhookURL !== 'TU_URL_DE_WEBHOOK_AQUI') {
+                // Enviamos los datos al webhook de forma invisible
+                fetch(webhookURL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => console.log('Datos enviados al webhook:', response))
+                .catch(error => console.error('Error en webhook:', error));
+            } else {
+                console.log('Webhook no configurado. Simulando envío de datos:', data);
+            }
+
+            // 3. Formatear el mensaje para WhatsApp
+            // El número debe ir sin espacios ni símbolos (+52 56 6509 2869 = 525665092869)
+            const myWhatsAppNumber = "525665092869"; 
+            
+            const messageText = `*NUEVO REGISTRO - MiHuellaSegura* 🐾\n\n` +
+                                `*DATOS DEL TUTOR:*\n` +
+                                `👤 Nombre: ${data.ownerName}\n` +
+                                `📱 Teléfono: ${data.ownerPhone}\n` +
+                                `✉️ Correo: ${data.ownerEmail}\n` +
+                                `📍 Zona: ${data.ownerZone}\n\n` +
+                                `*DATOS DE LA MASCOTA:*\n` +
+                                `🐶 Nombre: ${data.petName}\n` +
+                                `🦴 Especie: ${data.petType}\n` +
+                                `🔍 Raza: ${data.petBreed || 'No especificada'}\n\n` +
+                                `_Solicitud generada desde la web._`;
+
+            // Codificar el mensaje para que funcione en la URL
+            const encodedMessage = encodeURIComponent(messageText);
+            const whatsappURL = `https://wa.me/${myWhatsAppNumber}?text=${encodedMessage}`;
+
+            // 4. Abrir WhatsApp en una nueva pestaña
+            window.open(whatsappURL, '_blank');
+
+            // 5. Limpiar formulario y regresar a la pantalla principal
+            this.reset();
+            closeScreen('registerScreen');
+            
+            // Opcional: Lanzar una alerta de éxito
+            setTimeout(() => {
+                alert("Solicitud procesada. Por favor, envía el mensaje en WhatsApp para completar tu registro.");
+            }, 500);
+        });
     </script>
 </body>
 </html>
