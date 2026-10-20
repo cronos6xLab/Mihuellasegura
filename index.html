@@ -58,6 +58,11 @@
             --radius-inputs: 9px;
             --radius-buttons: 9999px;
             --radius-tags: 100px;
+
+            /* Shadows (Corregido: Añadidas las variables que faltaban) */
+            --shadow-subtle: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-subtle-2: 0 4px 12px rgba(0,0,0,0.05);
+            --shadow-xl: 0 20px 40px rgba(0,0,0,0.15);
         }
 
         /* =========================================
@@ -81,7 +86,7 @@
         h1, h2, h3, h4 {
             font-family: var(--font-display);
             color: var(--color-onyx);
-            font-weight: 700; /* Bold per ClickUp display style */
+            font-weight: 700;
         }
 
         .container {
@@ -268,11 +273,10 @@
             flex-wrap: wrap;
         }
 
-        /* Imagen Hero con Gradiente Cónico */
         .hero-image-wrapper {
             position: relative;
             border-radius: var(--radius-largecards);
-            padding: 3px; /* Grosor del borde */
+            padding: 3px;
             background: conic-gradient(from 90deg, rgb(125, 91, 231) 19%, rgb(188, 63, 218) 28%, rgb(250, 36, 206) 37%, rgb(251, 73, 165) 45%, rgb(252, 109, 123) 52%, rgb(253, 132, 97) 55%, rgb(253, 154, 70) 58%, rgb(246, 135, 198) 65%, rgb(163, 160, 224) 80%, rgb(79, 185, 250) 95%, rgb(0, 145, 255) 100%);
             animation: spin 4s linear infinite;
         }
@@ -286,7 +290,6 @@
             border-radius: calc(var(--radius-largecards) - 2px);
             overflow: hidden;
             height: 100%;
-            /* Contrarrestar la rotación del contenedor */
             animation: spin-reverse 4s linear infinite;
         }
 
@@ -393,6 +396,7 @@
             border-radius: var(--radius-cards);
             padding: var(--spacing-32);
             transition: transform 0.2s;
+            box-shadow: var(--shadow-subtle);
         }
 
         .step-card:hover {
@@ -457,7 +461,6 @@
             padding: 0 var(--spacing-24);
         }
 
-        /* Video Placeholder */
         .video-placeholder {
             width: 100%;
             aspect-ratio: 16 / 9;
@@ -485,7 +488,6 @@
         }
         .play-icon svg { fill: var(--color-brand-violet); width: 24px; height: 24px; margin-left: 4px; }
 
-        /* FAQs */
         .faq-section { margin-top: var(--spacing-64); }
         .faq-item { border-bottom: 1px solid var(--color-bone); padding: var(--spacing-24) 0; }
         .faq-item:last-child { border-bottom: none; }
@@ -568,7 +570,6 @@
             gap: var(--spacing-20);
         }
 
-        /* Estilos del Mapa Claro */
         #map {
             height: 250px;
             width: 100%;
@@ -634,7 +635,6 @@
         }
         .privacy-link:hover { color: var(--color-ink-black); }
 
-        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -677,14 +677,13 @@
         .modal-content h2 { font-size: 28px; margin-bottom: var(--spacing-20); }
         .modal-content p { margin-bottom: var(--spacing-16); font-size: 14px; color: var(--color-slate); }
 
-        /* Utilities */
         @media (max-width: 900px) {
             .hero-grid { grid-template-columns: 1fr; text-align: center; }
             .hero-content p { margin: 0 auto var(--spacing-24); }
             .hero-checklist { align-items: center; }
             .hero-buttons, .hero-tags { justify-content: center; }
             .hero-image-wrapper { max-width: 500px; margin: 0 auto; }
-            .nav-links { display: none; } /* Simplificado para móvil */
+            .nav-links { display: none; }
         }
         @media (max-width: 768px) {
             .form-row { grid-template-columns: 1fr; }
@@ -712,43 +711,32 @@
         </div>
     </nav>
 
-    <!-- =========================================
-         PANTALLA PRINCIPAL (INICIO)
-         ========================================= -->
+    <!-- PANTALLA PRINCIPAL -->
     <div id="mainScreen">
-        
-        <!-- HERO SECTION -->
         <header class="hero">
             <div class="container">
                 <div class="hero-grid">
-                    <!-- Columna Izquierda: Texto -->
                     <div class="hero-content">
                         <span class="mono-label">Rastreo Inteligente de Mascotas</span>
                         <h1>Un toque trae a tu mejor amigo a casa.</h1>
                         <p>Solicita tu placa inteligente con QR y NFC. Nosotros la fabricamos con tus datos. Si alguien encuentra a tu mascota, recibirás su ubicación al instante.</p>
-                        
                         <div class="hero-checklist">
                             <div class="check-item"><span class="check-icon">✓</span> Sin necesidad de apps</div>
                             <div class="check-item"><span class="check-icon">✓</span> Alertas a WhatsApp y Correo</div>
                             <div class="check-item"><span class="check-icon">✓</span> Datos médicos visibles</div>
                         </div>
-
                         <div class="hero-buttons">
                             <button onclick="openScreen('registerScreen')" class="btn btn-primary">Solicitar mi placa ahora</button>
                             <button onclick="openScreen('instructionsScreen')" class="btn btn-ghost">Cómo funciona</button>
                         </div>
-
                         <div class="hero-tags">
                             <span class="tag-pill">QR Único</span>
                             <span class="tag-pill">Chip NFC</span>
                             <span class="tag-pill">Resistente al agua</span>
                         </div>
                     </div>
-
-                    <!-- Columna Derecha: Imagen con Gradiente -->
                     <div class="hero-image-wrapper">
                         <div class="hero-image-inner">
-                            <!-- Imagen de referencia del producto -->
                             <img src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?q=80&w=800&auto=format&fit=crop" alt="Perro con placa inteligente">
                         </div>
                     </div>
@@ -756,7 +744,6 @@
             </div>
         </header>
 
-        <!-- CARRUSEL (Plaster Section Band) -->
         <section class="carousel-section">
             <div class="container">
                 <div class="section-header" style="text-align: left; margin-bottom: 24px;">
@@ -796,14 +783,12 @@
             </div>
         </section>
 
-        <!-- CÓMO FUNCIONA -->
         <section class="how-it-works">
             <div class="container">
                 <div class="section-header">
                     <span class="mono-label">El Proceso</span>
                     <h2>Tu mascota segura en 4 pasos</h2>
                 </div>
-                
                 <div class="steps-grid">
                     <div class="step-card">
                         <div class="step-number">01</div>
@@ -829,7 +814,6 @@
             </div>
         </section>
 
-        <!-- FOOTER -->
         <footer>
             <div class="container">
                 <p>© 2024 MiHuellaSegura. Todos los derechos reservados.</p>
@@ -838,21 +822,17 @@
         </footer>
     </div>
 
-    <!-- =========================================
-         PANTALLA DE INSTRUCCIONES
-         ========================================= -->
+    <!-- PANTALLA DE INSTRUCCIONES -->
     <div id="instructionsScreen" class="overlay-screen">
         <div class="top-nav-bar">
             <button class="btn btn-ghost" onclick="closeAllScreens()">← Volver al inicio</button>
         </div>
-
         <div class="container">
             <div class="overlay-header">
                 <span class="mono-label">Manual del Usuario</span>
                 <h1>Instrucciones de uso</h1>
                 <p style="max-width: 600px; margin: 0 auto; color: var(--color-slate);">Todo lo que necesitas saber sobre el funcionamiento de tu placa MiHuellaSegura.</p>
             </div>
-
             <div class="content-wrapper">
                 <div class="video-placeholder">
                     <div class="play-icon">
@@ -860,11 +840,9 @@
                     </div>
                     <span class="mono-label">Video explicativo</span>
                 </div>
-
                 <div class="section-header" style="text-align: left; margin-bottom: 32px;">
                     <h2 style="font-size: 32px;">Paso a paso</h2>
                 </div>
-
                 <div class="steps-grid" style="grid-template-columns: 1fr;">
                     <div class="step-card">
                         <div class="step-number">Paso 1</div>
@@ -887,7 +865,6 @@
                         <p>Al escanear, el sistema envía automáticamente la ubicación GPS del escaneo a tu correo y a tu WhatsApp de emergencia.</p>
                     </div>
                 </div>
-
                 <div class="faq-section">
                     <div class="section-header" style="text-align: left; margin-bottom: 32px;">
                         <h2 style="font-size: 32px;">Preguntas frecuentes</h2>
@@ -905,7 +882,6 @@
                         <p>No. En el mapa solo seleccionas tu colonia o zona general. La ubicación exacta solo se comparte cuando se escanea la placa en caso de extravío.</p>
                     </div>
                 </div>
-
                 <div style="text-align: center; margin-top: var(--spacing-48); margin-bottom: var(--spacing-64);">
                     <button class="btn btn-primary" onclick="closeAllScreens()">Volver al inicio</button>
                 </div>
@@ -913,32 +889,25 @@
         </div>
     </div>
 
-    <!-- =========================================
-         PANTALLA DE REGISTRO / SOLICITUD
-         ========================================= -->
+    <!-- PANTALLA DE REGISTRO / SOLICITUD -->
     <div id="registerScreen" class="form-section-bg">
         <div class="top-nav-bar">
             <button class="btn btn-ghost" onclick="closeAllScreens()">← Volver al inicio</button>
         </div>
-
         <div class="container">
             <div class="overlay-header">
                 <span class="mono-label">Módulo de Adquisición</span>
                 <h1>Solicitar Mi Placa</h1>
                 <p style="max-width: 600px; margin: 0 auto; color: var(--color-slate);">Completa este formulario. Al enviarlo, <strong>nosotros fabricaremos tu placa inteligente</strong> con un código único vinculado a estos datos.</p>
             </div>
-
             <div class="content-wrapper">
                 <div class="form-card">
                     <form id="registrationForm">
-                        
                         <h3 style="margin-bottom: var(--spacing-24); font-size: 20px;">1. Datos de Contacto</h3>
-                        
                         <div class="form-group">
                             <label for="ownerName">Nombre completo del tutor</label>
                             <input type="text" id="ownerName" class="form-control" placeholder="Ej. Juan Pérez" required>
                         </div>
-
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="ownerPhone">WhatsApp Principal (Emergencia)</label>
@@ -949,24 +918,18 @@
                                 <input type="tel" id="emergencyPhone" class="form-control" placeholder="Por si no estás disponible">
                             </div>
                         </div>
-
                         <div class="form-group">
                             <label for="ownerEmail">Correo Electrónico (Para recibir alertas)</label>
                             <input type="email" id="ownerEmail" class="form-control" placeholder="tucorreo@ejemplo.com" required>
                         </div>
-
                         <h3 style="margin-top: var(--spacing-32); margin-bottom: var(--spacing-24); font-size: 20px;">2. Zona de Residencia</h3>
-                        
                         <span class="map-instruction">Haz clic en el mapa para marcar tu colonia o zona aproximada.</span>
                         <div id="map"></div>
-                        
                         <div class="form-group">
                             <label for="ownerZone">Zona seleccionada</label>
                             <input type="text" id="ownerZone" class="form-control" placeholder="Haz clic en el mapa..." readonly required>
                         </div>
-
                         <h3 style="margin-top: var(--spacing-32); margin-bottom: var(--spacing-24); font-size: 20px;">3. Datos de la Mascota</h3>
-
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="petName">Nombre de la mascota</label>
@@ -982,29 +945,25 @@
                                 </select>
                             </div>
                         </div>
-
                         <div class="form-group">
                             <label for="petBreed">Raza (Opcional)</label>
                             <input type="text" id="petBreed" class="form-control" placeholder="Ej. Labrador, Mestizo, Siamés...">
                         </div>
-
                         <div class="form-group">
                             <label for="medicalInfo">Datos Médicos / Condiciones Especiales</label>
                             <textarea id="medicalInfo" class="form-control" placeholder="Ej. Alérgico a la penicilina, toma medicamento diario, es sordo. (Visible en caso de rescate)."></textarea>
                         </div>
-
                         <div class="checkbox-group">
                             <input type="checkbox" id="privacyCheck" required>
                             <label for="privacyCheck">
                                 He leído y acepto el <a onclick="openModal()">Aviso de Privacidad</a> y autorizo el uso de estos datos para la fabricación de mi placa y el sistema de rescate.
                             </label>
                         </div>
-
                         <button type="submit" class="btn btn-primary" style="width: 100%; padding: 16px; font-size: 16px;">Finalizar Solicitud y enviar a WhatsApp</button>
                     </form>
                 </div>
             </div>
-            <div style="height: 40px;"></div> <!-- Espaciador inferior -->
+            <div style="height: 40px;"></div>
         </div>
     </div>
 
@@ -1023,7 +982,6 @@
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-    <!-- SCRIPTS -->
     <script>
         // --- Lógica de Navegación ---
         const mainScreen = document.getElementById("mainScreen");
@@ -1035,12 +993,12 @@
             
             const targetScreen = document.getElementById(screenId);
             if(targetScreen) {
-                // Forzar display block o flex según el caso
-                targetScreen.style.display = (screenId === 'registerScreen') ? "block" : "block";
+                targetScreen.style.display = "block";
                 window.scrollTo(0, 0);
                 
-                if(screenId === 'registerScreen' && map) {
-                    setTimeout(() => { map.invalidateSize(); }, 100);
+                // Corregido: Inicializar mapa solo cuando se abre la pantalla de registro
+                if(screenId === 'registerScreen') {
+                    initMap();
                 }
             }
         }
@@ -1055,47 +1013,61 @@
         const modal = document.getElementById("privacyModal");
         function openModal() { modal.style.display = "flex"; }
         function closeModal() { modal.style.display = "none"; }
-        window.onclick = function(event) { if (event.target == modal) { modal.style.display = "none"; } }
+        window.onclick = function(event) { 
+            if (event.target == modal) { modal.style.display = "none"; } 
+        }
 
-        // --- Lógica del Mapa ---
+        // --- Lógica del Mapa (Corregida) ---
         let map;
         let marker;
-        
-        // Inicializar mapa
-        map = L.map('map').setView([19.4326, -99.1332], 10);
-        
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; OpenStreetMap',
-            maxZoom: 18
-        }).addTo(map);
-
+        let mapInitialized = false;
         let selectedLat = null;
         let selectedLng = null;
 
-        map.on('click', function(e) {
-            selectedLat = e.latlng.lat;
-            selectedLng = e.latlng.lng;
+        function initMap() {
+            // Si el mapa ya fue inicializado, solo corregimos su tamaño y salimos
+            if (mapInitialized) {
+                setTimeout(() => { map.invalidateSize(); }, 200);
+                return;
+            }
 
-            if (marker) { map.removeLayer(marker); }
-            marker = L.marker([selectedLat, selectedLng]).addTo(map);
+            // Inicializar el mapa
+            map = L.map('map').setView([19.4326, -99.1332], 10);
+            
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap',
+                maxZoom: 18
+            }).addTo(map);
 
-            const zoneInput = document.getElementById('ownerZone');
-            zoneInput.value = "Buscando zona...";
+            map.on('click', function(e) {
+                selectedLat = e.latlng.lat;
+                selectedLng = e.latlng.lng;
 
-            fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${selectedLat}&lon=${selectedLng}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.display_name) {
-                        const parts = data.display_name.split(',');
-                        zoneInput.value = parts.slice(0, 3).join(', ');
-                    } else {
+                if (marker) { map.removeLayer(marker); }
+                marker = L.marker([selectedLat, selectedLng]).addTo(map);
+
+                const zoneInput = document.getElementById('ownerZone');
+                zoneInput.value = "Buscando zona...";
+
+                fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${selectedLat}&lon=${selectedLng}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.display_name) {
+                            const parts = data.display_name.split(',');
+                            zoneInput.value = parts.slice(0, 3).join(', ');
+                        } else {
+                            zoneInput.value = `Lat: ${selectedLat.toFixed(4)}, Lng: ${selectedLng.toFixed(4)}`;
+                        }
+                    })
+                    .catch(error => {
                         zoneInput.value = `Lat: ${selectedLat.toFixed(4)}, Lng: ${selectedLng.toFixed(4)}`;
-                    }
-                })
-                .catch(error => {
-                    zoneInput.value = `Lat: ${selectedLat.toFixed(4)}, Lng: ${selectedLng.toFixed(4)}`;
-                });
-        });
+                    });
+            });
+
+            // Forzar actualización del tamaño del mapa después de que el contenedor sea visible
+            setTimeout(() => { map.invalidateSize(); }, 200);
+            mapInitialized = true;
+        }
 
         // --- Lógica de Envío del Formulario ---
         document.getElementById('registrationForm').addEventListener('submit', function(e) {
@@ -1138,7 +1110,7 @@
                                 `*DATOS DEL TUTOR:*\n` +
                                 `👤 Nombre: ${data.ownerName}\n` +
                                 `📱 WhatsApp Principal: ${data.ownerPhone}\n` +
-                                `📞 Emergencia Secundario: ${data.emergencyPhone}\n` +
+                                `📞 Teléfono Secundario: ${data.emergencyPhone}\n` +
                                 `✉️ Correo: ${data.ownerEmail}\n\n` +
                                 `*UBICACIÓN (Zona):*\n` +
                                 `📍 ${data.ownerZone}\n` +
@@ -1153,15 +1125,19 @@
             const encodedMessage = encodeURIComponent(messageText);
             window.open(`https://wa.me/${myWhatsAppNumber}?text=${encodedMessage}`, '_blank');
 
-            // 4. Limpiar y regresar
+            // 4. Limpiar, regresar y avisar
             this.reset();
-            if(marker) { map.removeLayer(marker); marker = null; }
-            selectedLat = null; selectedLng = null;
+            if(marker && map) { 
+                map.removeLayer(marker); 
+                marker = null; 
+            }
+            selectedLat = null; 
+            selectedLng = null;
             
             closeAllScreens();
             setTimeout(() => {
-                alert("Solicitud generada. Por favor, envía el mensaje en WhatsApp para finalizar.");
-            }, 500);
+                alert("Solicitud generada con éxito. Revisa la ventana de WhatsApp que se abrió para enviar la información.");
+            }, 600);
         });
     </script>
 </body>
